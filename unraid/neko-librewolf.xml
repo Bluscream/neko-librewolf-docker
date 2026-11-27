@@ -12,12 +12,13 @@
   <Overview>neko (m1k1o, v3) virtual browser with LibreWolf instead of Firefox. Several people can watch and take turns controlling one browser over WebRTC. uBlock Origin, Dark Reader and FoxMCP (MCP browser control for AI agents) are preinstalled. Optional RTMP broadcast of the desktop.
 
 Set both passwords and NEKO_WEBRTC_NAT1TO1 (the IP your viewers use to reach this server; the Unraid LAN IP for LAN-only use). The WebRTC port must be the same inside and outside and reachable by viewers (UDP, TCP as fallback).
+Optional: add --cap-add=SYS_ADMIN to Extra Parameters for an extra LibreWolf sandbox layer (trade-off in the README).
 Full documentation: https://github.com/Bluscream/neko-librewolf-docker/blob/master/apps/librewolf/README.md</Overview>
   <Category>Network:Web Productivity: Tools:</Category>
   <WebUI>http://[IP]:[PORT:8080]/</WebUI>
   <TemplateURL>https://raw.githubusercontent.com/Bluscream/neko-librewolf-docker/master/unraid/neko-librewolf.xml</TemplateURL>
   <Icon>https://raw.githubusercontent.com/m1k1o/neko/master/webpage/static/img/logo.png</Icon>
-  <ExtraParams>--shm-size=2g --cap-add=SYS_ADMIN --restart=unless-stopped</ExtraParams>
+  <ExtraParams>--shm-size=2g --restart=unless-stopped</ExtraParams>
   <PostArgs/>
   <CPUset/>
   <Requires>Choose a WebRTC port that is free on the host and forward it (UDP + TCP) on your router if viewers come from the internet.</Requires>

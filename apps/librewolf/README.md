@@ -19,7 +19,13 @@ LibreWolf image; this app is built the same way as neko's own `apps/firefox`, on
 | Unraid | Docker → Add Container → Template URL `https://raw.githubusercontent.com/Bluscream/neko-librewolf-docker/master/unraid/neko-librewolf.xml`, or copy [`unraid/neko-librewolf.xml`](../../unraid/neko-librewolf.xml) to `/boot/config/plugins/dockerMan/templates-user/my-neko-librewolf.xml`. |
 | Build yourself | `docker build -t neko-librewolf apps/librewolf` (optional `--build-arg BASE_IMAGE=…`, `--build-arg FOXMCP_VERSION=…`). |
 
-**Required:** `--shm-size=2g` (the browser crashes with the 64 MB default) and `--cap-add=SYS_ADMIN` (browser sandbox).
+**Recommended:** `--shm-size=2g` (neko's docs say Firefox-based browsers manage without it; it gives heavy pages room).
+
+**Optional:** `--cap-add=SYS_ADMIN`. LibreWolf runs without it (tested; neko's docs: *"Firefox-based browsers do not require
+additional capabilities"*). With it, Docker's default seccomp profile allows user namespaces, so LibreWolf gets one extra
+sandbox layer (without it the log shows `Sandbox: CanCreateUserNamespace() clone() failure: EPERM`, which is harmless).
+The price: anything that gains root in the container has a much easier way out to the host. All processes except
+`supervisord` run as the unprivileged `neko` user. Leave it off on hosts you don't own.
 
 ## Ports
 
@@ -88,6 +94,6 @@ Put it on one line in Unraid. Adding `videorate` or x264 `option-string` made th
 | Symptom | Cause / fix |
 | --- | --- |
 | Black picture, the UI loads | WebRTC cannot connect. Check `NEKO_WEBRTC_NAT1TO1`, that the port is forwarded (UDP + TCP), and that the host port equals the mux port. Viewers behind strict firewalls need TURN. |
-| Browser tabs crash | `--shm-size` missing. |
+| Browser tabs crash | Raise `--shm-size` (e.g. `2g`). |
 | "Profile in use" | Remove `lock` / `.parentlock` from the profile folder while the container is stopped. |
 | Broadcast "active" but nothing arrives | After a container rebuild, stop and start the broadcast again (admin menu or API). |

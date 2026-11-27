@@ -5,7 +5,7 @@ services:
     # build: .   # or build from this folder
     restart: unless-stopped
     shm_size: 2g
-    cap_add: [SYS_ADMIN]
+    # cap_add: [SYS_ADMIN]   # optional: extra LibreWolf sandbox layer, but a root-capable container (see README)
     ports:
       - "8080:8080"           # web UI (put a TLS reverse proxy in front for internet use)
       - "52100:52100/udp"     # WebRTC
