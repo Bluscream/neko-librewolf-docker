@@ -86,15 +86,15 @@
     "HardwareAcceleration": false,
     "Homepage": {
       "Additional": [],
-      "StartPage": "home"
+      "StartPage": "previous-session"
     },
     "NewTabPage": true,
     "NoDefaultBookmarks": true,
-    "OfferToSaveLogins": false,
-    "OfferToSaveLoginsDefault": false,
+    "OfferToSaveLogins": true,
+    "OfferToSaveLoginsDefault": true,
     "OverrideFirstRunPage": "",
     "OverridePostUpdatePage": "",
-    "PasswordManagerEnabled": false,
+    "PasswordManagerEnabled": true,
     "Permissions": {
       "Camera": {
         "BlockNewRequests": true
@@ -119,21 +119,10 @@
       "dom.disable_window_move_resize": true,
       "dom.event.contextmenu.enabled": true,
       "extensions.getAddons.showPane": false,
-      "places.history.enabled": false,
       "privacy.file_unique_origin": true,
       "ui.key.menuAccessKeyFocuses": false,
       "browser.tabs.allowTabDetach": false
     },
-    "PromptForDownloadLocation": false,
-    "SanitizeOnShutdown": {
-      "Cache": true,
-      "Cookies": true,
-      "Downloads": true,
-      "FormData": true,
-      "History": true,
-      "OfflineApps": true,
-      "Sessions": true,
-      "SiteSettings": true
-    }
+    "PromptForDownloadLocation": false
   }
 }
