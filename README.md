@@ -1,3 +1,8 @@
+> **This fork adds a LibreWolf app** (neko + LibreWolf + FoxMCP): image `bluscream1/neko-librewolf`,
+> docs, env var table and compose example in [`apps/librewolf/`](apps/librewolf/README.md), Unraid template in
+> [`unraid/`](unraid/neko-librewolf.xml). Everything else is upstream [m1k1o/neko](https://github.com/m1k1o/neko).
+> GitHub Actions are disabled on this fork; images are built and pushed manually.
+
 <div align="center">
   <a href="https://github.com/m1k1o/neko" title="Neko's Github repository.">
     <img src="https://neko.m1k1o.net/img/logo.png" width="400" height="auto"/>

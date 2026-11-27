@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>neko-librewolf</Name>
+  <Repository>bluscream1/neko-librewolf:latest</Repository>
+  <Registry>https://hub.docker.com/r/bluscream1/neko-librewolf</Registry>
+  <Network>bridge</Network>
+  <MyIP/>
+  <Shell>bash</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/Bluscream/neko-librewolf-docker/issues</Support>
+  <Project>https://github.com/Bluscream/neko-librewolf-docker</Project>
+  <Overview>neko (m1k1o, v3) virtual browser with LibreWolf instead of Firefox. Several people can watch and take turns controlling one browser over WebRTC. uBlock Origin, Dark Reader and FoxMCP (MCP browser control for AI agents) are preinstalled. Optional RTMP broadcast of the desktop.
+
+Set both passwords and NEKO_WEBRTC_NAT1TO1 (the IP your viewers use to reach this server; the Unraid LAN IP for LAN-only use). The WebRTC port must be the same inside and outside and reachable by viewers (UDP, TCP as fallback).
+Full documentation: https://github.com/Bluscream/neko-librewolf-docker/blob/master/apps/librewolf/README.md</Overview>
+  <Category>Network:Web Productivity: Tools:</Category>
+  <WebUI>http://[IP]:[PORT:8080]/</WebUI>
+  <TemplateURL>https://raw.githubusercontent.com/Bluscream/neko-librewolf-docker/master/unraid/neko-librewolf.xml</TemplateURL>
+  <Icon>https://raw.githubusercontent.com/m1k1o/neko/master/webpage/static/img/logo.png</Icon>
+  <ExtraParams>--shm-size=2g --cap-add=SYS_ADMIN --restart=unless-stopped</ExtraParams>
+  <PostArgs/>
+  <CPUset/>
+  <Requires>Choose a WebRTC port that is free on the host and forward it (UDP + TCP) on your router if viewers come from the internet.</Requires>
+  <Config Name="Web UI" Target="8080" Default="8080" Mode="tcp" Description="neko web interface (HTTP). Put a reverse proxy with TLS in front of it for access from outside the LAN." Type="Port" Display="always" Required="true" Mask="false">8080</Config>
+  <Config Name="WebRTC (UDP)" Target="52100" Default="52100" Mode="udp" Description="WebRTC media. Host port MUST equal NEKO_WEBRTC_UDPMUX." Type="Port" Display="always" Required="true" Mask="false">52100</Config>
+  <Config Name="WebRTC (TCP fallback)" Target="52100" Default="52100" Mode="tcp" Description="WebRTC over TCP for networks that block UDP. Host port MUST equal NEKO_WEBRTC_TCPMUX." Type="Port" Display="always" Required="true" Mask="false">52100</Config>
+  <Config Name="FoxMCP (MCP over HTTP)" Target="8771" Default="" Mode="tcp" Description="Optional. MCP endpoint for AI agents to control the browser (http://host:port/mcp). Anyone who reaches it controls the browser: leave empty, or bind to a trusted address only." Type="Port" Display="advanced" Required="false" Mask="false"/>
+  <Config Name="Admin password" Target="NEKO_MEMBER_MULTIUSER_ADMIN_PASSWORD" Default="" Mode="" Description="Password for admins (may take control, kick, change settings)." Type="Variable" Display="always" Required="true" Mask="true"/>
+  <Config Name="User password" Target="NEKO_MEMBER_MULTIUSER_USER_PASSWORD" Default="" Mode="" Description="Password for normal viewers." Type="Variable" Display="always" Required="true" Mask="true"/>
+  <Config Name="Public IP (NAT1TO1)" Target="NEKO_WEBRTC_NAT1TO1" Default="" Mode="" Description="IP that viewers connect to for WebRTC: the server's LAN IP for LAN use, your public IP for internet use. Empty = auto-detect the public IP at start." Type="Variable" Display="always" Required="false" Mask="false"/>
+  <Config Name="Screen" Target="NEKO_DESKTOP_SCREEN" Default="1920x1080@30" Mode="" Description="Virtual screen WIDTHxHEIGHT@FPS." Type="Variable" Display="always" Required="false" Mask="false">1920x1080@30</Config>
+  <Config Name="Member provider" Target="NEKO_MEMBER_PROVIDER" Default="multiuser" Mode="" Description="multiuser = two shared passwords (user/admin)." Type="Variable" Display="advanced" Required="true" Mask="false">multiuser</Config>
+  <Config Name="WebRTC UDP mux port" Target="NEKO_WEBRTC_UDPMUX" Default="52100" Mode="" Description="Must match the WebRTC (UDP) port." Type="Variable" Display="advanced" Required="true" Mask="false">52100</Config>
+  <Config Name="WebRTC TCP mux port" Target="NEKO_WEBRTC_TCPMUX" Default="52100" Mode="" Description="Must match the WebRTC (TCP fallback) port." Type="Variable" Display="advanced" Required="true" Mask="false">52100</Config>
+  <Config Name="ICE servers (JSON)" Target="NEKO_WEBRTC_ICESERVERS_FRONTEND" Default="" Mode="" Description="Optional STUN/TURN servers for viewers, JSON list, e.g. [{&quot;urls&quot;:[&quot;turn:turn.example.com:3478&quot;],&quot;username&quot;:&quot;u&quot;,&quot;credential&quot;:&quot;p&quot;}]." Type="Variable" Display="advanced" Required="false" Mask="true"/>
+  <Config Name="Broadcast URL" Target="NEKO_CAPTURE_BROADCAST_URL" Default="" Mode="" Description="Optional RTMP target for streaming the desktop, e.g. rtmp://restreamer:1935/live/key. Start/stop it in the admin menu or via the API." Type="Variable" Display="advanced" Required="false" Mask="true"/>
+  <Config Name="Broadcast autostart" Target="NEKO_CAPTURE_BROADCAST_AUTOSTART" Default="false" Mode="" Description="Start the broadcast when neko starts (neko default: true)." Type="Variable" Display="advanced" Required="false" Mask="false">false</Config>
+  <Config Name="Broadcast pipeline" Target="NEKO_CAPTURE_BROADCAST_PIPELINE" Default="" Mode="" Description="Optional custom GStreamer pipeline (see README: H.264 4:2:0 for HLS players, 1 s keyframes for low latency)." Type="Variable" Display="advanced" Required="false" Mask="false"/>
+  <Config Name="Profile" Target="/home/neko/.librewolf/profile.default" Default="/mnt/user/appdata/neko-librewolf/profile" Mode="rw" Description="LibreWolf profile (logins, cookies, extensions). Owned by uid 1000." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/neko-librewolf/profile</Config>
+  <Config Name="Downloads" Target="/home/neko/Downloads" Default="/mnt/user/appdata/neko-librewolf/downloads" Mode="rw" Description="Browser downloads. Owned by uid 1000." Type="Path" Display="advanced" Required="false" Mask="false">/mnt/user/appdata/neko-librewolf/downloads</Config>
+</Container>

@@ -1,0 +1,24 @@
+# Minimal example. Copy to an empty folder, set the passwords (or use an .env file), then: docker compose up -d
+services:
+  neko:
+    image: bluscream1/neko-librewolf:latest
+    # build: .   # or build from this folder
+    restart: unless-stopped
+    shm_size: 2g
+    cap_add: [SYS_ADMIN]
+    ports:
+      - "8080:8080"           # web UI (put a TLS reverse proxy in front for internet use)
+      - "52100:52100/udp"     # WebRTC
+      - "52100:52100/tcp"     # WebRTC TCP fallback
+      # - "127.0.0.1:8771:8771" # FoxMCP (MCP for AI agents), trusted clients only
+    environment:
+      NEKO_MEMBER_PROVIDER: multiuser
+      NEKO_MEMBER_MULTIUSER_USER_PASSWORD: ${NEKO_USER_PASSWORD:?set NEKO_USER_PASSWORD}
+      NEKO_MEMBER_MULTIUSER_ADMIN_PASSWORD: ${NEKO_ADMIN_PASSWORD:?set NEKO_ADMIN_PASSWORD}
+      NEKO_DESKTOP_SCREEN: 1920x1080@30
+      NEKO_WEBRTC_UDPMUX: "52100"
+      NEKO_WEBRTC_TCPMUX: "52100"
+      NEKO_WEBRTC_NAT1TO1: ${NEKO_PUBLIC_IP:-}   # empty = auto-detect public IP
+    volumes:
+      - ./profile:/home/neko/.librewolf/profile.default
+      - ./downloads:/home/neko/Downloads
